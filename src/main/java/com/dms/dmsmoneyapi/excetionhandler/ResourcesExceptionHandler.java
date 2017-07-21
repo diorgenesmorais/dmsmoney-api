@@ -2,6 +2,7 @@ package com.dms.dmsmoneyapi.excetionhandler;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,12 +39,18 @@ public class ResourcesExceptionHandler extends ResponseEntityExceptionHandler {
 	@Autowired
 	private MessageSource messageSource;
 
-	private List<ErroDTO> criarListaErro(BindingResult bindingResult) {
-		List<ErroDTO> erros = new ArrayList<>();
+	private List<ErrorDetails> criarListaErros(BindingResult bindingResult, HttpStatus status) {
+		List<ErrorDetails> erros = new ArrayList<>();
 
 		for (FieldError fieldError : bindingResult.getFieldErrors()) {
 			String messageUser = messageSource.getMessage(fieldError, LocaleContextHolder.getLocale());
-			erros.add(new ErroDTO(messageUser, fieldError.toString()));
+			erros.add(ErrorDetailsBuilder.newBuilder()
+											.title("Error")
+											.status(status.value())
+											.timestamp(new Date().getTime())
+											.userMessage(messageUser)
+											.developerMessage(fieldError.toString())
+											.build());
 		}
 		return erros;
 	}
@@ -54,16 +61,22 @@ public class ResourcesExceptionHandler extends ResponseEntityExceptionHandler {
 
 		String messageUser = messageSource.getMessage("mensagem.invalida", null, LocaleContextHolder.getLocale());
 		String messageDeveloper = ex.getCause().toString();
-		List<ErroDTO> erros = Arrays.asList(new ErroDTO(messageUser, messageDeveloper));
+		List<ErrorDetails> erros = Arrays.asList(ErrorDetailsBuilder.newBuilder()
+				.title("Error")
+				.status(status.value())
+				.timestamp(new Date().getTime())
+				.userMessage(messageUser)
+				.developerMessage(messageDeveloper)
+				.build());
 
-		return handleExceptionInternal(ex, erros, headers, HttpStatus.BAD_REQUEST, request);
+		return handleExceptionInternal(ex, erros, headers, status, request);
 	}
 
 	@Override
 	protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex,
 			HttpHeaders headers, HttpStatus status, WebRequest request) {
-
-		List<ErroDTO> erros = criarListaErro(ex.getBindingResult());
-		return handleExceptionInternal(ex, erros, headers, HttpStatus.NOT_ACCEPTABLE, request);
+		status = HttpStatus.NOT_ACCEPTABLE;
+		List<ErrorDetails> erros = criarListaErros(ex.getBindingResult(), status);
+		return handleExceptionInternal(ex, erros, headers, status, request);
 	}
 }
