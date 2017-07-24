@@ -10,6 +10,12 @@
 
 	<name>dmsmoney-api</name>
 	<description>Um projeto do curso da Algaworks</description>
+	<developers>
+		<developer>
+			<name>Diorgenes Morais</name>
+			<email>diorgenesmorais@gmail.com</email>
+		</developer>
+	</developers>
 
 	<parent>
 		<groupId>org.springframework.boot</groupId>
@@ -58,11 +64,11 @@
 			<artifactId>flyway-core</artifactId>
 		</dependency>
 		
-		<!-- Junit -->
+		<!-- lib useful -->
 		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<scope>test</scope>
+			<groupId>com.dms</groupId>
+			<artifactId>useful-lib</artifactId>
+			<version>1.1.4</version>
 		</dependency>
 	</dependencies>
 
