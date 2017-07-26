@@ -63,7 +63,7 @@ public class ResourcesExceptionHandler extends ResponseEntityExceptionHandler {
 		for (FieldError fieldError : bindingResult.getFieldErrors()) {
 			String messageUser = messageSource.getMessage(fieldError, LocaleContextHolder.getLocale());
 			erros.add(ErrorDetailsBuilder.newBuilder()
-					.title("Error")
+					.title("Not Valid")
 					.status(status.value())
 					.timestamp(new Date().getTime())
 					.userMessage(messageUser)
@@ -80,7 +80,7 @@ public class ResourcesExceptionHandler extends ResponseEntityExceptionHandler {
 		String messageUser = getMessageProperties("mensagem.invalida");
 		String messageDeveloper = ex.getCause() != null ? ex.getCause().toString() : ex.toString();
 		List<ErrorDetails> erros = Arrays.asList(ErrorDetailsBuilder.newBuilder()
-				.title("Error")
+				.title("Http Message Not Readable Exception")
 				.status(status.value())
 				.timestamp(new Date().getTime())
 				.userMessage(messageUser)
@@ -103,7 +103,7 @@ public class ResourcesExceptionHandler extends ResponseEntityExceptionHandler {
 			WebRequest request) {
 		String userMessage = getMessageProperties("resource.not-found");
 		List<ErrorDetails> erros = Arrays.asList(ErrorDetailsBuilder.newBuilder()
-				.title("Error")
+				.title("Empty Result Data Access Exception")
 				.status(HttpStatus.NOT_FOUND.value())
 				.timestamp(new Date().getTime())
 				.userMessage(userMessage)
@@ -118,7 +118,7 @@ public class ResourcesExceptionHandler extends ResponseEntityExceptionHandler {
 			WebRequest request){
 		String userMessage = getMessageProperties("resource.not-acceptable");
 		List<ErrorDetails> erros = Arrays.asList(ErrorDetailsBuilder.newBuilder()
-				.title("Client Error")
+				.title("Data Integrity Violation Exception")
 				.status(HttpStatus.NOT_ACCEPTABLE.value())
 				.timestamp(new Date().getTime())
 				.userMessage(userMessage)
