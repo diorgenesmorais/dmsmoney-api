@@ -24,6 +24,7 @@ import com.dms.dmsmoneyapi.excetionhandler.ErrorDetails;
 import com.dms.dmsmoneyapi.excetionhandler.ErrorDetailsBuilder;
 import com.dms.dmsmoneyapi.model.Lancamento;
 import com.dms.dmsmoneyapi.repository.LancamentoRepository;
+import com.dms.dmsmoneyapi.repository.filter.LancamentoFilter;
 import com.dms.dmsmoneyapi.service.LancamentoService;
 import com.dms.dmsmoneyapi.service.exception.PessoaInexistenteOuInativaException;
 
@@ -41,8 +42,8 @@ public class LancamentoResource {
 	private LancamentoService lancamentoService;
 
 	@GetMapping
-	public List<Lancamento> listar() {
-		return lancamentoRepository.findAll();
+	public List<Lancamento> pesquisar(LancamentoFilter lancamentoFilter) {
+		return lancamentoRepository.filter(lancamentoFilter);
 	}
 
 	@GetMapping("/{id}")
