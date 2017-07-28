@@ -19,6 +19,7 @@ public class PessoaService {
 		return pessoaRepository.save(pessoaSalva);
 	}
 
+	@Deprecated
 	public void atualizarPropriedadeAtivo(Long id, Boolean ativo) {
 		Pessoa pessoaSalva = pessoaRepository.findById(id);
 		pessoaSalva.setAtivo(ativo);

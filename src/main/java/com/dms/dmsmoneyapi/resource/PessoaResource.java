@@ -72,6 +72,6 @@ public class PessoaResource {
 	@PutMapping("/{id}/ativo")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void atualizarAtivo(@PathVariable Long id, @RequestBody Boolean ativo) {
-		pessoaService.atualizarPropriedadeAtivo(id, ativo);
+		pessoaRepository.atualizarAtivo(id, ativo);
 	}
 }
