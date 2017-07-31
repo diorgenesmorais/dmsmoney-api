@@ -11,5 +11,5 @@ public interface PessoaRepositoryQuery {
 	 *            equals {@code true}, {@code false} for inactive.
 	 * @return 1 if ok
 	 */
-	public int atualizarAtivo(Long id, Boolean ativo);
+	public void atualizarAtivo(Long id, Boolean ativo);
 }
