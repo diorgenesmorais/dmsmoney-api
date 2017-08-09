@@ -30,6 +30,7 @@ import com.dms.dmsmoneyapi.excetionhandler.ErrorDetailsBuilder;
 import com.dms.dmsmoneyapi.model.Lancamento;
 import com.dms.dmsmoneyapi.repository.LancamentoRepository;
 import com.dms.dmsmoneyapi.repository.filter.LancamentoFilter;
+import com.dms.dmsmoneyapi.repository.projection.ResumoLancamento;
 import com.dms.dmsmoneyapi.service.LancamentoService;
 import com.dms.dmsmoneyapi.service.exception.PessoaInexistenteOuInativaException;
 
@@ -52,6 +53,12 @@ public class LancamentoResource {
 		return lancamentoRepository.filter(lancamentoFilter, pageable);
 	}
 
+	@GetMapping(params = "resumo")
+	@PreAuthorize("hasAuthority('ROLE_PESQUISAR_LANCAMENTO') and #oauth2.hasScope('read')")
+	public Page<ResumoLancamento> resumir(LancamentoFilter lancamentoFilter, Pageable pageable) {
+		return lancamentoRepository.resumir(lancamentoFilter, pageable);
+	}
+	
 	@GetMapping("/{id}")
 	@PreAuthorize("hasAuthority('ROLE_PESQUISAR_LANCAMENTO') and #oauth2.hasScope('read')")
 	public ResponseEntity<Lancamento> buscarPorId(@PathVariable Long id) {
