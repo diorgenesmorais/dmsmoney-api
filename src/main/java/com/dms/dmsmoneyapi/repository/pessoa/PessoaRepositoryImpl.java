@@ -11,16 +11,21 @@ import javax.transaction.Transactional;
 import org.springframework.dao.EmptyResultDataAccessException;
 
 import com.dms.dmsmoneyapi.model.Pessoa;
-import com.dms.dmsmoneyapi.model.Pessoa_;
 
+/**
+ * TODO: quando possível implementar Metamodel nesta
+ * {@code PessoaRepositoryImpl}
+ * 
+ * @author Diorgenes Morais
+ * @version 1.0.1
+ */
 public class PessoaRepositoryImpl implements PessoaRepositoryQuery {
 
 	@PersistenceContext
 	private EntityManager manager;
 
 	/*
-	 * (non-Javadoc)
-	 * Result: update pessoa set ativo=? where id=?
+	 * (non-Javadoc) Result: update pessoa set ativo=? where id=?
 	 */
 	@Transactional
 	@Override
@@ -29,9 +34,9 @@ public class PessoaRepositoryImpl implements PessoaRepositoryQuery {
 		CriteriaUpdate<Pessoa> criteria = builder.createCriteriaUpdate(Pessoa.class);
 		Root<Pessoa> root = criteria.from(Pessoa.class);
 
-		criteria.set(Pessoa_.ativo, ativo).where(builder.equal(root.<Long>get(Pessoa_.id), id));
+		criteria.set("ativo", ativo).where(builder.equal(root.<Long>get("id"), id));
 		Query query = manager.createQuery(criteria);
-		if(query.executeUpdate() != 1) {
+		if (query.executeUpdate() != 1) {
 			throw new EmptyResultDataAccessException(1);
 		}
 	}
