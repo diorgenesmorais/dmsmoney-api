@@ -12,4 +12,5 @@ public interface PessoaRepositoryQuery {
 	 * @return 1 if ok
 	 */
 	public void atualizarAtivo(Long id, Boolean ativo);
+
 }
