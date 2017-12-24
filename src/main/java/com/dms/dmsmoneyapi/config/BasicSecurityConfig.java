@@ -33,7 +33,7 @@ public class BasicSecurityConfig extends WebSecurityConfigurerAdapter {
 				.sessionManagement()
 					.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 				.and()
-				.cors().disable();
+				.csrf().disable();
 	}
 	
 	private PasswordEncoder passwordEncoder() {
